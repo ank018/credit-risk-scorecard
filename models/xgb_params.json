@@ -1,0 +1,24 @@
+{
+  "tuned": {
+    "max_depth": 7,
+    "learning_rate": 0.010804032574636408,
+    "subsample": 0.823659106715697,
+    "colsample_bytree": 0.6908556046603515,
+    "min_child_weight": 117,
+    "reg_lambda": 0.9692886073687867,
+    "reg_alpha": 0.9941450502972566,
+    "gamma": 0.04290483321909339
+  },
+  "baseline": {
+    "max_depth": 5,
+    "learning_rate": 0.05,
+    "subsample": 0.8,
+    "colsample_bytree": 0.8,
+    "min_child_weight": 50,
+    "reg_lambda": 2.0,
+    "reg_alpha": 0.0001,
+    "gamma": 0.0001
+  },
+  "n_trials": 50,
+  "best_val_gini": 0.33978629748248235
+}

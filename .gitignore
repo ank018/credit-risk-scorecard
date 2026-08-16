@@ -10,5 +10,5 @@ __pycache__/
 mlruns/
 .env
 *.pkl
-models/
+models/*
 !models/xgb_params.json
