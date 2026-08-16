@@ -1,3 +1,5 @@
 feature_a,feature_b,corr,abs_corr
+woe_inq_intensity,woe_inq_last_6mths,0.9628685926424134,0.9628685926424134
+woe_dti_with_loan,woe_dti,0.9137234410510905,0.9137234410510905
 woe_avg_cur_bal,woe_tot_cur_bal,0.9066148112534009,0.9066148112534009
 woe_credit_hist_months,woe_mo_sin_old_rev_tl_op,0.8793552657426051,0.8793552657426051

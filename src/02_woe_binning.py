@@ -12,6 +12,7 @@ Out:  data/processed/woe_train.parquet, woe_test.parquet, woe_oot.parquet
 
 from pathlib import Path
 import pickle
+import sys
 import warnings
 
 import numpy as np
@@ -21,6 +22,9 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from optbinning import BinningProcess
+
+sys.path.insert(0, str(Path(__file__).parent))
+from features import derive_features
 
 warnings.filterwarnings("ignore", category=FutureWarning)
 
@@ -41,6 +45,14 @@ TEST_SIZE = 0.30
 IV_FLOOR = 0.02
 IV_CEILING = 0.50
 
+# Characteristics retained despite failing the univariate IV floor, on ablation
+# evidence rather than judgement. loan_amnt scores IV 0.0115 on its own but was
+# measured at +0.0178 Gini in docs/challenger_analysis.md section 4: larger
+# loans go to higher-income borrowers, so the risk of the amount cancels
+# against the quality of the borrower unless income is held constant.
+# Univariate screening cannot see that by construction.
+FORCE_KEEP = ["loan_amnt"]
+
 # Binning granularity. A 5% floor per bin and a hard cap of 8 bins keeps WOE
 # values stable across the OOT window - thin bins swing on new populations - and
 # keeps the resulting points table readable by a credit committee.
@@ -54,35 +66,6 @@ NON_FEATURES = ["id", "issue_d", "loan_status", "vintage", "split", "target",
 
 CATEGORICAL = ["home_ownership", "verification_status", "purpose", "addr_state",
                "initial_list_status", "application_type"]
-
-
-def derive_features(df):
-    """Two raw fields are unusable as-is and one needs type coercion."""
-    # Credit file age at application. The raw field is a date, which is not a
-    # risk characteristic; months of history at the observation point is.
-    ecl = pd.to_datetime(df["earliest_cr_line"], format="mixed", errors="coerce")
-    df["credit_hist_months"] = ((df["issue_d"] - ecl).dt.days / 30.44).round()
-    df = df.drop(columns=["earliest_cr_line"])
-
-    # "< 1 year" ... "10+ years" -> ordinal. Null stays null; optbinning will
-    # give it its own bin rather than us guessing a value.
-    emp_map = {"< 1 year": 0, "1 year": 1, "2 years": 2, "3 years": 3,
-               "4 years": 4, "5 years": 5, "6 years": 6, "7 years": 7,
-               "8 years": 8, "9 years": 9, "10+ years": 10}
-    df["emp_length_num"] = df["emp_length"].map(emp_map)
-    df = df.drop(columns=["emp_length"])
-
-    # Some mirrors ship revol_util as "34.5%" rather than a float.
-    if df["revol_util"].dtype == object:
-        df["revol_util"] = (df["revol_util"].astype(str)
-                            .str.rstrip("%").replace("nan", np.nan).astype(float))
-
-    # FICO is published as a 4-point band. The midpoint is the usable value and
-    # the two endpoints are perfectly collinear with it.
-    df["fico"] = (df["fico_range_low"] + df["fico_range_high"]) / 2
-    df = df.drop(columns=["fico_range_low", "fico_range_high"])
-
-    return df
 
 
 def make_splits(df):
@@ -133,17 +116,26 @@ def iv_report(bp, features):
         ["WEAK - drop", "HIGH - check leakage"],
         default="",
     )
+
+    forced = s.loc[(s["iv"] < IV_FLOOR) & (s["name"].isin(FORCE_KEEP)),
+                   "name"].tolist()
+    s.loc[s["name"].isin(forced), "flag"] = "BELOW FLOOR - force kept"
+    
     s.to_csv(REPORTS / "iv_table.csv", index=False)
 
     print("\n  IV ranking:")
     print(s.to_string(index=False, float_format=lambda x: f"{x:.4f}"))
-
-    weak = s.loc[s["iv"] < IV_FLOOR, "name"].tolist()
+    
+    weak = s.loc[(s["iv"] < IV_FLOOR) & (~s["name"].isin(FORCE_KEEP)),
+                 "name"].tolist()
     high = s.loc[s["iv"] > IV_CEILING, "name"].tolist()
     if high:
         print(f"\n  !! IV > {IV_CEILING}: {high}")
         print("     Inspect the WOE plot before keeping. A feature this strong is")
         print("     usually post-origination information that survived the filter.")
+    if forced:
+        print(f"\n  below the {IV_FLOOR} floor but force-kept: {forced}")
+        print("     Retained on ablation evidence, not on IV. See FORCE_KEEP.")
     if weak:
         print(f"\n  IV < {IV_FLOOR} (drop): {weak}")
     return s, weak
