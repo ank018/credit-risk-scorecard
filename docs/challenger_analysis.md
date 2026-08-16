@@ -230,10 +230,25 @@ usefully so.
 
 The gap between attribution and contribution is the lesson. **SHAP measures how
 much the model used a characteristic, not whether using it helped.** The challenger
-appears to be fitting state-level structure present in the 2013–14 development
-sample that does not carry to the 2015 window — plausibly because Lending Club's
-geographic mix shifted materially as it expanded, which is exactly the drift the
-PSI monitor in stage 10 is built to detect.
+is fitting state-level structure present in the 2013–14 development sample that
+does not carry to the 2015 window.
+
+An earlier draft attributed this to Lending Club's geographic mix shifting as it
+expanded. **The PSI monitoring in `docs/monitoring.md` §5 does not support that
+explanation**: `addr_state` peaks at PSI 0.051 across 2015–2017, comfortably inside
+the stable band, and is flat throughout. The distribution of applicant states
+barely moved.
+
+So the state-level structure the challenger fitted was most likely never
+generalisable signal — the model found sample-specific pockets rather than a real
+geographic risk gradient that later shifted. That is a less flattering explanation
+for the challenger, and it is the one the evidence supports.
+
+It also illustrates a limit of the monitoring pack itself: univariate PSI monitors
+input distributions, not the relationship between an input and the outcome. A
+characteristic whose *meaning* changes while its distribution holds steady is
+invisible to PSI and detectable only through performance monitoring on matured
+vintages.
 
 Practical consequences:
 
