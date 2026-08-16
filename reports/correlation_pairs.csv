@@ -1,0 +1,3 @@
+feature_a,feature_b,corr,abs_corr
+woe_avg_cur_bal,woe_tot_cur_bal,0.9066148112534009,0.9066148112534009
+woe_credit_hist_months,woe_mo_sin_old_rev_tl_op,0.8793552657426051,0.8793552657426051
