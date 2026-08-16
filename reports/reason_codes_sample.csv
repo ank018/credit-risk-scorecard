@@ -1,0 +1,101 @@
+applicant,score,rank,characteristic,points_awarded,points_available,points_typical,points_forgone,reason,method
+54019,527,1,mo_sin_old_rev_tl_op,44,52,48.2,4.2,Length of time revolving accounts established,mean
+54019,527,2,avg_cur_bal,46,57,47.8,1.8,Level of balances maintained across accounts,mean
+54019,527,3,loan_to_income,46,52,47.4,1.4,Amount requested relative to income,mean
+54019,527,4,total_bc_limit,47,59,47.8,0.8,Amount of credit available on revolving accounts,mean
+12038,529,1,loan_to_income,43,52,47.4,4.4,Amount requested relative to income,mean
+12038,529,2,percent_bc_gt_75,47,53,48.8,1.8,Proportion of revolving accounts near their limit,mean
+12038,529,3,fico,44,71,45.3,1.3,Credit bureau score,mean
+12038,529,4,annual_inc,47,52,47.8,0.8,Level of income stated on the application,mean
+708,523,1,mo_sin_rcnt_tl,42,59,46.9,4.9,Time since most recent account was opened,mean
+708,523,2,loan_to_income,43,52,47.4,4.4,Amount requested relative to income,mean
+708,523,3,avg_cur_bal,46,57,47.8,1.8,Level of balances maintained across accounts,mean
+708,523,4,dti_with_loan,43,57,44.7,1.7,Total debt obligations relative to income,mean
+31134,525,1,mo_sin_rcnt_tl,42,59,46.9,4.9,Time since most recent account was opened,mean
+31134,525,2,loan_to_income,43,52,47.4,4.4,Amount requested relative to income,mean
+31134,525,3,avg_cur_bal,46,57,47.8,1.8,Level of balances maintained across accounts,mean
+31134,525,4,home_ownership,48,51,48.8,0.8,Housing status,mean
+38536,522,1,fico,42,71,45.3,3.3,Credit bureau score,mean
+38536,522,2,annual_inc,46,52,47.8,1.8,Level of income stated on the application,mean
+38536,522,3,percent_bc_gt_75,47,53,48.8,1.8,Proportion of revolving accounts near their limit,mean
+38536,522,4,avg_cur_bal,46,57,47.8,1.8,Level of balances maintained across accounts,mean
+38766,522,1,mo_sin_rcnt_tl,42,59,46.9,4.9,Time since most recent account was opened,mean
+38766,522,2,fico,42,71,45.3,3.3,Credit bureau score,mean
+38766,522,3,inq_intensity,45,52,47.8,2.8,Recent credit inquiries relative to accounts held,mean
+38766,522,4,percent_bc_gt_75,47,53,48.8,1.8,Proportion of revolving accounts near their limit,mean
+42155,513,1,dti_with_loan,39,57,44.7,5.7,Total debt obligations relative to income,mean
+42155,513,2,loan_to_income,43,52,47.4,4.4,Amount requested relative to income,mean
+42155,513,3,fico,42,71,45.3,3.3,Credit bureau score,mean
+42155,513,4,mo_sin_rcnt_tl,46,59,46.9,0.9,Time since most recent account was opened,mean
+10675,502,1,inq_intensity,41,52,47.8,6.8,Recent credit inquiries relative to accounts held,mean
+10675,502,2,dti_with_loan,39,57,44.7,5.7,Total debt obligations relative to income,mean
+10675,502,3,loan_to_income,43,52,47.4,4.4,Amount requested relative to income,mean
+10675,502,4,mo_sin_old_rev_tl_op,44,52,48.2,4.2,Length of time revolving accounts established,mean
+35580,516,1,inq_intensity,41,52,47.8,6.8,Recent credit inquiries relative to accounts held,mean
+35580,516,2,mo_sin_rcnt_tl,45,59,46.9,1.9,Time since most recent account was opened,mean
+35580,516,3,dti_with_loan,43,57,44.7,1.7,Total debt obligations relative to income,mean
+35580,516,4,fico,44,71,45.3,1.3,Credit bureau score,mean
+6059,522,1,dti_with_loan,39,57,44.7,5.7,Total debt obligations relative to income,mean
+6059,522,2,total_bc_limit,45,59,47.8,2.8,Amount of credit available on revolving accounts,mean
+6059,522,3,mo_sin_rcnt_tl,45,59,46.9,1.9,Time since most recent account was opened,mean
+6059,522,4,percent_bc_gt_75,47,53,48.8,1.8,Proportion of revolving accounts near their limit,mean
+45564,529,1,percent_bc_gt_75,47,53,48.8,1.8,Proportion of revolving accounts near their limit,mean
+45564,529,2,avg_cur_bal,46,57,47.8,1.8,Level of balances maintained across accounts,mean
+45564,529,3,fico,44,71,45.3,1.3,Credit bureau score,mean
+45564,529,4,mo_sin_old_rev_tl_op,47,52,48.2,1.2,Length of time revolving accounts established,mean
+52288,526,1,inq_intensity,41,52,47.8,6.8,Recent credit inquiries relative to accounts held,mean
+52288,526,2,mo_sin_rcnt_tl,45,59,46.9,1.9,Time since most recent account was opened,mean
+52288,526,3,avg_cur_bal,46,57,47.8,1.8,Level of balances maintained across accounts,mean
+52288,526,4,fico,44,71,45.3,1.3,Credit bureau score,mean
+10013,527,1,fico,44,71,45.3,1.3,Credit bureau score,mean
+10013,527,2,mo_sin_rcnt_tl,46,59,46.9,0.9,Time since most recent account was opened,mean
+10013,527,3,home_ownership,48,51,48.8,0.8,Housing status,mean
+10013,527,4,mo_sin_old_rev_tl_op,48,52,48.2,0.2,Length of time revolving accounts established,mean
+51089,528,1,dti_with_loan,39,57,44.7,5.7,Total debt obligations relative to income,mean
+51089,528,2,loan_to_income,46,52,47.4,1.4,Amount requested relative to income,mean
+51089,528,3,total_bc_limit,47,59,47.8,0.8,Amount of credit available on revolving accounts,mean
+51089,528,4,home_ownership,48,51,48.8,0.8,Housing status,mean
+18045,526,1,dti_with_loan,39,57,44.7,5.7,Total debt obligations relative to income,mean
+18045,526,2,mo_sin_old_rev_tl_op,44,52,48.2,4.2,Length of time revolving accounts established,mean
+18045,526,3,home_ownership,48,51,48.8,0.8,Housing status,mean
+18045,526,4,avg_cur_bal,48,57,47.8,-0.2,Level of balances maintained across accounts,mean
+6483,513,1,dti_with_loan,39,57,44.7,5.7,Total debt obligations relative to income,mean
+6483,513,2,loan_to_income,43,52,47.4,4.4,Amount requested relative to income,mean
+6483,513,3,avg_cur_bal,46,57,47.8,1.8,Level of balances maintained across accounts,mean
+6483,513,4,fico,44,71,45.3,1.3,Credit bureau score,mean
+43093,517,1,dti_with_loan,39,57,44.7,5.7,Total debt obligations relative to income,mean
+43093,517,2,loan_to_income,43,52,47.4,4.4,Amount requested relative to income,mean
+43093,517,3,annual_inc,46,52,47.8,1.8,Level of income stated on the application,mean
+43093,517,4,avg_cur_bal,46,57,47.8,1.8,Level of balances maintained across accounts,mean
+25803,525,1,loan_to_income,43,52,47.4,4.4,Amount requested relative to income,mean
+25803,525,2,dti_with_loan,43,57,44.7,1.7,Total debt obligations relative to income,mean
+25803,525,3,fico,44,71,45.3,1.3,Credit bureau score,mean
+25803,525,4,mo_sin_rcnt_tl,46,59,46.9,0.9,Time since most recent account was opened,mean
+3298,524,1,fico,42,71,45.3,3.3,Credit bureau score,mean
+3298,524,2,dti_with_loan,43,57,44.7,1.7,Total debt obligations relative to income,mean
+3298,524,3,mo_sin_rcnt_tl,46,59,46.9,0.9,Time since most recent account was opened,mean
+3298,524,4,percent_bc_gt_75,48,53,48.8,0.8,Proportion of revolving accounts near their limit,mean
+31917,503,1,inq_intensity,41,52,47.8,6.8,Recent credit inquiries relative to accounts held,mean
+31917,503,2,loan_to_income,43,52,47.4,4.4,Amount requested relative to income,mean
+31917,503,3,mo_sin_old_rev_tl_op,44,52,48.2,4.2,Length of time revolving accounts established,mean
+31917,503,4,fico,42,71,45.3,3.3,Credit bureau score,mean
+6175,517,1,dti_with_loan,39,57,44.7,5.7,Total debt obligations relative to income,mean
+6175,517,2,mo_sin_rcnt_tl,42,59,46.9,4.9,Time since most recent account was opened,mean
+6175,517,3,loan_to_income,43,52,47.4,4.4,Amount requested relative to income,mean
+6175,517,4,annual_inc,47,52,47.8,0.8,Level of income stated on the application,mean
+47300,523,1,mo_sin_old_rev_tl_op,44,52,48.2,4.2,Length of time revolving accounts established,mean
+47300,523,2,fico,42,71,45.3,3.3,Credit bureau score,mean
+47300,523,3,total_bc_limit,45,59,47.8,2.8,Amount of credit available on revolving accounts,mean
+47300,523,4,percent_bc_gt_75,47,53,48.8,1.8,Proportion of revolving accounts near their limit,mean
+46278,527,1,dti_with_loan,39,57,44.7,5.7,Total debt obligations relative to income,mean
+46278,527,2,loan_to_income,43,52,47.4,4.4,Amount requested relative to income,mean
+46278,527,3,avg_cur_bal,46,57,47.8,1.8,Level of balances maintained across accounts,mean
+46278,527,4,mo_sin_rcnt_tl,46,59,46.9,0.9,Time since most recent account was opened,mean
+13933,529,1,mo_sin_rcnt_tl,46,59,46.9,0.9,Time since most recent account was opened,mean
+13933,529,2,total_bc_limit,47,59,47.8,0.8,Amount of credit available on revolving accounts,mean
+13933,529,3,annual_inc,47,52,47.8,0.8,Level of income stated on the application,mean
+13933,529,4,home_ownership,48,51,48.8,0.8,Housing status,mean
+34611,526,1,dti_with_loan,39,57,44.7,5.7,Total debt obligations relative to income,mean
+34611,526,2,loan_to_income,43,52,47.4,4.4,Amount requested relative to income,mean
+34611,526,3,mo_sin_rcnt_tl,46,59,46.9,0.9,Time since most recent account was opened,mean
+34611,526,4,percent_bc_gt_75,48,53,48.8,0.8,Proportion of revolving accounts near their limit,mean

@@ -1,0 +1,5 @@
+metric,value
+mean overlap of top-4,2.6026
+top-1 exact match,0.3368
+at least 3 of 4 shared,0.5724
+at least 2 of 4 shared,0.9516
