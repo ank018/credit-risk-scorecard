@@ -1,5 +1,6 @@
 data/
 *.csv
+!reports/*.csv
 *.csv.gz
 *.parquet
 .venv/
@@ -8,4 +9,5 @@ __pycache__/
 .ipynb_checkpoints/
 mlruns/
 .env
-*.pklgit init
+*.pkl
+models/
