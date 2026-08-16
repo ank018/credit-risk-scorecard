@@ -366,10 +366,15 @@ engineering), with the score coefficient highly significant alongside grade.
 | Band spread | 6.5× | **7.0×** |
 | Gap to LC grade | −0.0485 | **−0.0360** |
 | Incremental over grade | +0.0157 | **+0.0189** |
-| Gap to XGBoost challenger | +0.0518 | **+0.0395** |
+| Gap to XGBoost challenger † | +0.0518 | **+0.0395** |
+
+† Both columns compare against the **untuned** challenger, so the row isolates
+what the ratios changed. The challenger was subsequently given a 50-trial Optuna
+search, which widened the current gap to +0.0425
+(`docs/challenger_analysis.md` §2).
 
 **Better discrimination on fewer characteristics**, and the gap to the
-gradient-boosted challenger closed by 24%.
+gradient-boosted challenger closed by 24% before the challenger was tuned.
 
 ---
 
