@@ -1,6 +1,6 @@
 # Target Definition and Performance Windows
 
-Stage 1 of the build. This document fixes the modelling population, the
+Stage 1 and 2 of the build. This document fixes the modelling population, the
 definition of a bad account, and the observation and performance windows.
 Everything downstream — binning, the scorecard, the OOT evaluation, the PSI
 monitor — depends on the decisions recorded here.
