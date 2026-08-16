@@ -35,6 +35,7 @@ from sklearn.metrics import roc_auc_score, roc_curve, brier_score_loss
 
 sys.path.insert(0, str(Path(__file__).parent))
 from features import derive_features
+from config import xgb_params, param_summary
 
 warnings.filterwarnings("ignore", category=UserWarning)
 
@@ -54,24 +55,6 @@ NON_FEATURES = ["id", "issue_d", "loan_status", "vintage", "split", "target",
 CATEGORICAL = ["home_ownership", "verification_status", "purpose", "addr_state",
                "initial_list_status", "application_type"]
 
-PARAMS = dict(
-    n_estimators=2000,
-    max_depth=5,
-    learning_rate=0.05,
-    subsample=0.8,
-    colsample_bytree=0.8,
-    # Credit data is noisy and the event rate is 13%; a high leaf floor stops
-    # the model carving out tiny high-default pockets that will not reappear
-    # in a later vintage.
-    min_child_weight=50,
-    reg_lambda=2.0,
-    eval_metric="auc",
-    early_stopping_rounds=50,
-    enable_categorical=True,
-    tree_method="hist",
-    random_state=RANDOM_STATE,
-    n_jobs=-1,
-)
 
 
 def gini(y, p):
@@ -251,6 +234,9 @@ def plot_calibration(splits, champ, chal_pred):
 if __name__ == "__main__":
     train_fit, val, test, oot, features = build_splits()
     splits = {"train_fit": train_fit, "val": val, "test": test, "oot": oot}
+
+    PARAMS = xgb_params()
+    print(f"xgb params: {param_summary(PARAMS)}")
     print(f"challenger feature set: {len(features)} raw characteristics")
     print(f"  (champion uses 12 WOE-transformed)")
 
