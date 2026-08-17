@@ -1,0 +1,44 @@
+{
+  "method": "mean",
+  "cutoff": 530,
+  "n_reasons": 4,
+  "reference_points": {
+    "fico": 45.2606,
+    "annual_inc": 47.8133,
+    "total_bc_limit": 47.8439,
+    "avg_cur_bal": 47.7773,
+    "dti_with_loan": 44.6539,
+    "loan_to_income": 47.3536,
+    "home_ownership": 48.7902,
+    "percent_bc_gt_75": 48.8055,
+    "mo_sin_rcnt_tl": 46.9441,
+    "mo_sin_old_rev_tl_op": 48.2039,
+    "inq_intensity": 47.7673
+  },
+  "max_points": {
+    "annual_inc": 52,
+    "avg_cur_bal": 57,
+    "dti_with_loan": 57,
+    "fico": 71,
+    "home_ownership": 51,
+    "inq_intensity": 52,
+    "loan_to_income": 52,
+    "mo_sin_old_rev_tl_op": 52,
+    "mo_sin_rcnt_tl": 59,
+    "percent_bc_gt_75": 53,
+    "total_bc_limit": 59
+  },
+  "reason_text": {
+    "fico": "Credit bureau score",
+    "dti_with_loan": "Total debt obligations relative to income",
+    "loan_to_income": "Amount requested relative to income",
+    "annual_inc": "Level of income stated on the application",
+    "avg_cur_bal": "Level of balances maintained across accounts",
+    "total_bc_limit": "Amount of credit available on revolving accounts",
+    "mo_sin_rcnt_tl": "Time since most recent account was opened",
+    "mo_sin_old_rev_tl_op": "Length of time revolving accounts established",
+    "inq_intensity": "Recent credit inquiries relative to accounts held",
+    "percent_bc_gt_75": "Proportion of revolving accounts near their limit",
+    "home_ownership": "Housing status"
+  }
+}

@@ -1,0 +1,27 @@
+# Serving dependencies only, pinned from the environment the pipeline and tests
+# ran in. Narrower than requirements.txt - no xgboost, shap, optuna, mlflow or
+# plotting; those are research dependencies with no place in a serving image.
+
+annotated-types==0.8.0
+anyio==4.14.2
+click==8.4.2
+fastapi==0.141.1
+h11==0.16.0
+idna==3.18
+joblib==1.5.3
+numpy==2.5.2
+optbinning==0.21.0
+ortools==9.11.4210
+packaging==26.3
+pandas==2.3.3
+patsy==1.0.2
+pydantic==2.13.4
+python-dateutil==2.9.0.post0
+pytz==2026.3.post1
+scikit-learn==1.9.0
+scipy==1.18.0
+starlette==1.6.0
+statsmodels==0.14.6
+threadpoolctl==3.6.0
+tzdata==2026.3
+uvicorn==0.52.3

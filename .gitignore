@@ -12,3 +12,9 @@ mlruns/
 *.pkl
 models/*
 !models/xgb_params.json
+!models/selected_features.json
+!models/binning_process.pkl
+!models/logit_model.pkl
+!models/scorecard.pkl
+!models/recalibration.pkl
+!models/reason_reference.json

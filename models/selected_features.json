@@ -1,0 +1,28 @@
+{
+  "features": [
+    "woe_fico",
+    "woe_annual_inc",
+    "woe_total_bc_limit",
+    "woe_avg_cur_bal",
+    "woe_dti_with_loan",
+    "woe_mort_acc",
+    "woe_bal_to_bc_limit",
+    "woe_loan_to_income",
+    "woe_home_ownership",
+    "woe_percent_bc_gt_75",
+    "woe_mo_sin_rcnt_tl",
+    "woe_mo_sin_old_rev_tl_op",
+    "woe_inq_intensity",
+    "woe_revol_bal",
+    "woe_revol_util",
+    "woe_loan_amnt"
+  ],
+  "dropped_correlation": [
+    "woe_inq_last_6mths",
+    "woe_dti",
+    "woe_credit_hist_months",
+    "woe_tot_cur_bal"
+  ],
+  "corr_threshold": 0.7,
+  "vif_threshold": 5.0
+}

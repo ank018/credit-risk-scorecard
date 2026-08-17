@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Credit Risk Scorecard — underwriting console</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#16202b;
+  --paper:#f7f8fa;
+  --card:#ffffff;
+  --rule:#d5dbe3;
+  --steel:#5b6b7f;
+  --approve:#0f6b52;
+  --decline:#a3282b;
+  --mark:#2f4f7a;
+  --sans:'IBM Plex Sans',system-ui,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--sans);font-size:15px;line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:var(--mark)}
+.wrap{max-width:1160px;margin:0 auto;padding:28px 20px 64px}
+
+header{border-bottom:2px solid var(--ink);padding-bottom:14px;margin-bottom:26px}
+.eyebrow{
+  font-family:var(--mono);font-size:11px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--steel);margin-bottom:6px;
+}
+h1{font-size:26px;font-weight:600;margin:0;letter-spacing:-.015em}
+.sub{color:var(--steel);font-size:14px;margin-top:5px;max-width:64ch}
+.sub code{font-family:var(--mono);font-size:12.5px}
+
+.grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:22px;align-items:start}
+@media (max-width:880px){.grid{grid-template-columns:1fr}}
+
+.panel{background:var(--card);border:1px solid var(--rule);border-radius:3px}
+.panel-hd{
+  display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+  padding:12px 18px;border-bottom:1px solid var(--rule);
+}
+.panel-hd h2{
+  font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.14em;
+  text-transform:uppercase;margin:0;color:var(--steel);
+}
+.panel-bd{padding:18px}
+
+fieldset{border:0;margin:0 0 20px;padding:0}
+fieldset:last-of-type{margin-bottom:0}
+legend{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--steel);padding:0 0 8px;
+  border-bottom:1px solid var(--rule);width:100%;margin-bottom:12px;
+}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:11px 14px}
+@media (max-width:420px){.fields{grid-template-columns:1fr}}
+.field{display:flex;flex-direction:column;gap:4px;min-width:0}
+.field.span{grid-column:1/-1}
+label{font-size:12.5px;color:var(--steel);font-weight:500}
+input,select{
+  font-family:var(--mono);font-size:14px;color:var(--ink);
+  padding:7px 9px;border:1px solid var(--rule);border-radius:2px;
+  background:#fff;width:100%;
+}
+input:focus,select:focus{outline:2px solid var(--mark);outline-offset:1px;border-color:var(--mark)}
+
+.actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:20px;padding-top:16px;border-top:1px solid var(--rule)}
+button{font-family:var(--sans);font-size:14px;font-weight:500;cursor:pointer;border-radius:2px;padding:9px 16px}
+button:focus-visible{outline:2px solid var(--mark);outline-offset:2px}
+.primary{background:var(--ink);color:#fff;border:1px solid var(--ink);flex:1;min-width:130px}
+.primary:hover{background:#25333f}
+.primary:disabled{opacity:.5;cursor:wait}
+.ghost{background:transparent;color:var(--steel);border:1px solid var(--rule)}
+.ghost:hover{border-color:var(--steel);color:var(--ink)}
+
+.empty{padding:52px 22px;text-align:center;color:var(--steel);font-size:14px}
+.empty strong{display:block;color:var(--ink);font-weight:500;margin-bottom:5px}
+
+/* score scale — the policy line is the point of it */
+.scale{margin-bottom:22px}
+.scale-top{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:9px}
+.scoreval{font-family:var(--mono);font-size:44px;font-weight:600;line-height:1;letter-spacing:-.02em}
+.scoremeta{font-family:var(--mono);font-size:11.5px;color:var(--steel);text-align:right;line-height:1.7}
+.track{position:relative;height:8px;background:#e8ecf1;border-radius:1px}
+.fill{position:absolute;left:0;top:0;bottom:0;border-radius:1px;transition:width .5s ease}
+.cut{position:absolute;top:-6px;bottom:-6px;width:2px;background:var(--ink)}
+.scale-lbl{position:relative;display:flex;justify-content:space-between;font-family:var(--mono);font-size:10.5px;color:var(--steel);margin-top:7px}
+.cutlbl{position:absolute;transform:translateX(-50%);white-space:nowrap}
+
+/* the decision reads as issued, not as a toast */
+.stamp{
+  display:inline-block;padding:7px 20px;border:2px solid;border-radius:2px;
+  font-family:var(--mono);font-size:17px;font-weight:600;letter-spacing:.16em;
+  transform:rotate(-1.5deg);margin-bottom:4px;
+}
+.stamp.approve{color:var(--approve);border-color:var(--approve)}
+.stamp.decline{color:var(--decline);border-color:var(--decline)}
+.stamp-note{font-size:12.5px;color:var(--steel);margin-bottom:22px}
+
+.sec-lbl{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--steel);padding-bottom:7px;border-bottom:1px solid var(--rule);margin:0 0 13px;
+}
+.reason{display:flex;gap:11px;padding:9px 0;border-bottom:1px solid #eef1f4}
+.reason:last-child{border-bottom:0}
+.rank{font-family:var(--mono);font-size:12px;color:var(--steel);padding-top:1px;min-width:14px}
+.rtext{flex:1;min-width:0}
+.rname{font-size:14px;margin-bottom:2px}
+.rnum{font-family:var(--mono);font-size:11.5px;color:var(--steel)}
+
+/* signature: the points table, made visible */
+.pt{display:grid;grid-template-columns:minmax(96px,1.1fr) minmax(0,2fr) 34px;gap:9px;align-items:center;padding:3px 0}
+.ptname{font-size:12.5px;color:var(--steel);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ptbar{position:relative;height:11px;background:#eef1f4;border-radius:1px}
+.ptbar span{position:absolute;left:0;top:0;bottom:0;background:var(--mark);border-radius:1px;transition:width .55s ease}
+.ptbar i{position:absolute;top:-2px;bottom:-2px;width:1px;background:var(--steel);opacity:.7}
+.ptval{font-family:var(--mono);font-size:12px;text-align:right}
+.legend{font-family:var(--mono);font-size:10.5px;color:var(--steel);margin-top:11px;display:flex;gap:16px;flex-wrap:wrap}
+
+.err{background:#fdf2f2;border:1px solid #e6c5c5;color:var(--decline);padding:11px 14px;font-size:13.5px;border-radius:2px}
+footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--rule);font-size:12.5px;color:var(--steel)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">Probability of default · application scorecard</div>
+  <h1>Credit Risk Scorecard</h1>
+  <p class="sub">
+    Enter an application to get a score, a decision against the policy cutoff, and
+    the adverse action reasons required on a decline. Same artefacts the pipeline
+    produced — the API is at <code>/docs</code>.
+  </p>
+</header>
+
+<div class="grid">
+
+  <section class="panel">
+    <div class="panel-hd"><h2>Application</h2><span id="modelmeta" class="rnum"></span></div>
+    <div class="panel-bd">
+      <form id="form">
+        <fieldset>
+          <legend>Bureau</legend>
+          <div class="fields">
+            <div class="field"><label for="fico_range_low">FICO low</label><input id="fico_range_low" type="number" value="680" min="300" max="850" required></div>
+            <div class="field"><label for="fico_range_high">FICO high</label><input id="fico_range_high" type="number" value="684" min="300" max="850" required></div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Income and request</legend>
+          <div class="fields">
+            <div class="field"><label for="annual_inc">Annual income ($)</label><input id="annual_inc" type="number" value="65000" min="0" required></div>
+            <div class="field"><label for="loan_amnt">Loan requested ($)</label><input id="loan_amnt" type="number" value="12000" min="1" required></div>
+            <div class="field"><label for="dti">Debt-to-income (%)</label><input id="dti" type="number" step="0.1" value="18.5" min="0" required></div>
+            <div class="field"><label for="home_ownership">Housing</label>
+              <select id="home_ownership"><option>MORTGAGE</option><option>RENT</option><option>OWN</option><option>OTHER</option></select>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Revolving credit</legend>
+          <div class="fields">
+            <div class="field"><label for="total_bc_limit">Bankcard limit ($)</label><input id="total_bc_limit" type="number" value="21000" min="0" required></div>
+            <div class="field"><label for="avg_cur_bal">Avg account balance ($)</label><input id="avg_cur_bal" type="number" value="8400" min="0" required></div>
+            <div class="field span"><label for="percent_bc_gt_75">Bankcards above 75% utilisation (%)</label><input id="percent_bc_gt_75" type="number" step="0.1" value="25" min="0" max="100" required></div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Credit file</legend>
+          <div class="fields">
+            <div class="field"><label for="mo_sin_rcnt_tl">Months since newest account</label><input id="mo_sin_rcnt_tl" type="number" value="8" min="0" required></div>
+            <div class="field"><label for="mo_sin_old_rev_tl_op">Months since oldest revolving</label><input id="mo_sin_old_rev_tl_op" type="number" value="142" min="0" required></div>
+            <div class="field"><label for="inq_last_6mths">Inquiries, last 6 months</label><input id="inq_last_6mths" type="number" value="1" min="0" required></div>
+            <div class="field"><label for="total_acc">Total accounts</label><input id="total_acc" type="number" value="24" min="0" required></div>
+          </div>
+        </fieldset>
+
+        <div class="actions">
+          <button type="submit" class="primary" id="go">Score application</button>
+          <button type="button" class="ghost" data-preset="strong">Load strong file</button>
+          <button type="button" class="ghost" data-preset="weak">Load weak file</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-hd"><h2>Decision</h2><span id="appid" class="rnum"></span></div>
+    <div class="panel-bd" id="out">
+      <div class="empty"><strong>Nothing scored yet</strong>Fill the form, or load a sample file, then score it.</div>
+    </div>
+  </section>
+
+</div>
+
+<footer id="foot">Scorecard built on Lending Club 36-month originations, 2013–15.</footer>
+</div>
+
+<script>
+const FIELDS = ["fico_range_low","fico_range_high","annual_inc","loan_amnt","dti",
+  "total_bc_limit","avg_cur_bal","percent_bc_gt_75","mo_sin_rcnt_tl",
+  "mo_sin_old_rev_tl_op","inq_last_6mths","total_acc"];
+
+const PRESETS = {
+  strong:{fico_range_low:745,fico_range_high:749,annual_inc:112000,loan_amnt:9000,
+    dti:9.4,total_bc_limit:48000,avg_cur_bal:19500,percent_bc_gt_75:0,
+    mo_sin_rcnt_tl:26,mo_sin_old_rev_tl_op:238,inq_last_6mths:0,total_acc:31,
+    home_ownership:"MORTGAGE"},
+  weak:{fico_range_low:620,fico_range_high:624,annual_inc:32000,loan_amnt:25000,
+    dti:28.5,total_bc_limit:4500,avg_cur_bal:1200,percent_bc_gt_75:80,
+    mo_sin_rcnt_tl:2,mo_sin_old_rev_tl_op:40,inq_last_6mths:4,total_acc:9,
+    home_ownership:"RENT"}
+};
+
+const SCALE_MIN = 476, SCALE_MAX = 620;
+let META = null;
+
+fetch("/model-info").then(r=>r.json()).then(m=>{
+  META = m;
+  document.getElementById("modelmeta").textContent =
+    m.characteristics.length + " characteristics · " + m.n_attributes + " attributes";
+  document.getElementById("foot").textContent =
+    "Base " + m.scaling.base_score + " at " + m.scaling.base_odds +
+    ":1 odds, PDO " + m.scaling.pdo + ". Policy cutoff " + m.cutoff +
+    ". Reasons ranked against population average.";
+}).catch(()=>{});
+
+document.querySelectorAll("[data-preset]").forEach(b=>{
+  b.onclick = () => {
+    const p = PRESETS[b.dataset.preset];
+    for (const k in p) document.getElementById(k).value = p[k];
+  };
+});
+
+const money = n => "$" + Number(n).toLocaleString();
+const esc = s => String(s).replace(/[&<>"]/g, c =>
+  ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+document.getElementById("form").onsubmit = async e => {
+  e.preventDefault();
+  const btn = document.getElementById("go");
+  btn.disabled = true; btn.textContent = "Scoring…";
+
+  const body = {application_id:"APP-" + Date.now().toString().slice(-6)};
+  FIELDS.forEach(f => body[f] = parseFloat(document.getElementById(f).value));
+  body.home_ownership = document.getElementById("home_ownership").value;
+
+  try {
+    const res = await fetch("/score", {
+      method:"POST", headers:{"Content-Type":"application/json"},
+      body:JSON.stringify(body)
+    });
+    if (!res.ok) throw new Error((await res.json()).detail || res.statusText);
+    render(await res.json());
+  } catch (err) {
+    document.getElementById("out").innerHTML =
+      '<div class="err">Could not score this application. ' + esc(err.message) + "</div>";
+  } finally {
+    btn.disabled = false; btn.textContent = "Score application";
+  }
+};
+
+function render(d) {
+  document.getElementById("appid").textContent = d.application_id;
+  const declined = d.decision === "DECLINE";
+  const colour = declined ? "var(--decline)" : "var(--approve)";
+  const pct = x => Math.max(0, Math.min(100, (x - SCALE_MIN) / (SCALE_MAX - SCALE_MIN) * 100));
+
+  let html = `
+    <div class="scale">
+      <div class="scale-top">
+        <div>
+          <div class="scoreval" style="color:${colour}">${d.score}</div>
+          <div class="rnum">score · band ${d.band} of 10</div>
+        </div>
+        <div class="scoremeta">
+          PD ${(d.probability_of_default*100).toFixed(1)}%<br>
+          calibrated ${(d.calibrated_probability_of_default*100).toFixed(1)}%
+        </div>
+      </div>
+      <div class="track">
+        <div class="fill" style="width:${pct(d.score)}%;background:${colour}"></div>
+        <div class="cut" style="left:${pct(d.cutoff)}%"></div>
+      </div>
+      <div class="scale-lbl"><span>${SCALE_MIN}</span><span class="cutlbl" style="left:${pct(d.cutoff)}%">cutoff ${d.cutoff}</span><span>${SCALE_MAX}</span></div>
+    </div>
+
+    <div class="stamp ${declined ? "decline" : "approve"}">${d.decision}</div>
+    <div class="stamp-note">${declined
+      ? "Below the policy cutoff. Principal reasons must be disclosed."
+      : "At or above the policy cutoff."}</div>`;
+
+  if (declined && d.reason_codes.length) {
+    html += '<p class="sec-lbl">Principal reasons</p>';
+    d.reason_codes.forEach(r => {
+      html += `<div class="reason">
+        <div class="rank">${r.rank}</div>
+        <div class="rtext">
+          <div class="rname">${esc(r.reason)}</div>
+          <div class="rnum">${r.points_awarded} points · typical ${r.points_typical} · available ${r.points_available}</div>
+        </div></div>`;
+    });
+  }
+
+  html += '<p class="sec-lbl" style="margin-top:22px">Points awarded</p>';
+  const maxp = (META && META.max_points) || {};
+  const refp = (META && META.reference_points) || {};
+  Object.entries(d.points_breakdown)
+    .sort((a,b) => (maxp[b[0]]||0) - (maxp[a[0]]||0))
+    .forEach(([k,v]) => {
+      const cap = maxp[k] || v;
+      html += `<div class="pt">
+        <div class="ptname" title="${esc(k)}">${esc(k)}</div>
+        <div class="ptbar">
+          <span style="width:${Math.min(100, v/cap*100)}%"></span>
+          ${refp[k] ? `<i style="left:${Math.min(100, refp[k]/cap*100)}%"></i>` : ""}
+        </div>
+        <div class="ptval">${v}</div></div>`;
+    });
+  html += '<div class="legend"><span>bar — points awarded of maximum</span><span>tick — population average</span></div>';
+
+  document.getElementById("out").innerHTML = html;
+}
+</script>
+</body>
+</html>

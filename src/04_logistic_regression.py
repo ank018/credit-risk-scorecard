@@ -154,6 +154,11 @@ if __name__ == "__main__":
     check.to_csv(REPORTS / "coefficients.csv", index=False)
     evaluate(model, frames, features)
 
+# statsmodels keeps the full design matrix on the results object - 184k rows
+    # of it - which makes the pickle ~35MB for a model that is 12 coefficients.
+    # remove_data() strips the nobs-sized arrays while preserving params, bse,
+    # pvalues and predict(), which is everything downstream and the API need.
+    model.remove_data()
     with open(MODELS / "logit_model.pkl", "wb") as f:
         pickle.dump({"model": model, "features": features}, f)
     print(f"\nsaved models/logit_model.pkl  ({len(features)} characteristics)")

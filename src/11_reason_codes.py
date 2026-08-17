@@ -24,6 +24,7 @@ until the card is rebuilt, and anyone holding the points table can reproduce it.
 """
 
 from pathlib import Path
+import json
 import pickle
 import sys
 import warnings
@@ -275,6 +276,23 @@ if __name__ == "__main__":
     })
     agree.to_csv(REPORTS / "reason_code_agreement.csv", index=False)
     print(agree.to_string(index=False, float_format=lambda x: f"{x:.3f}"))
+
+    # Persist everything the scoring service needs to reproduce these reasons:
+    # the shortfall reference, the per-characteristic maxima, the cutoff and the
+    # disclosure text. Without this the API would have to re-derive the
+    # reference from data it does not have at serving time.
+    with open(MODELS / "reason_reference.json", "w") as f:
+        json.dump({
+            "method": METHOD,
+            "cutoff": int(cutoff),
+            "n_reasons": N_REASONS,
+            "reference_points": {k: round(float(v), 4)
+                                 for k, v in reference.items()},
+            "max_points": {k: int(v) for k, v in max_pts.items()
+                           if k in d_pts.columns},
+            "reason_text": REASON_TEXT,
+        }, f, indent=2)
+    print("\nsaved models/reason_reference.json")
 
     fig, ax = plt.subplots(figsize=(9, 5))
     piv.plot.barh(ax=ax)
